@@ -171,7 +171,7 @@ final class MovieQuizViewController: UIViewController {
     
 }
 
-
+// Новая ветка
 /*
  Mock-данные
  

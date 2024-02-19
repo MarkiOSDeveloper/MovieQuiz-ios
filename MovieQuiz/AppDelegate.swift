@@ -17,7 +17,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
-        print("Hello world for branch to merge!")
+        print("Hello world!")
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
         
     }
