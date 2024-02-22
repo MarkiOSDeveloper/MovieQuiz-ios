@@ -1,40 +1,12 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController {
-    // MARK: - Lifecycle
+    // MARK: - IB Outlets
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
-    @IBAction private func NoButton(_ sender: UIButton) {
-        let currentQuestion = question[currentQuestionIndex] // 1
-        let givenAnswer = false // 2
-        
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-        
-    }
-    @IBAction private func YesButton(_ sender: UIButton) {
-        let currentQuestion = question[currentQuestionIndex]
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //
-        let currentQuestion = question[currentQuestionIndex]
-        let questionStep = convert(model: currentQuestion)
-        show(quiz: questionStep)
-        
-    }
     
-    // переменная с индексом текушего вопроса
-    private var currentQuestionIndex = 0
-    // переменная счётчик
-    private var correctAnswers = 0
-    
-    
-    
-    
-    
+    // MARK: - Public Properties
     // вью модель для состояния "Вопрос показан"
     struct QuizStepViewModel {
         // картинка с афишей фильма с типом UIImage
@@ -60,6 +32,12 @@ final class MovieQuizViewController: UIViewController {
         let text: String
         let correctAnswer: Bool
     }
+    
+    // MARK: - Private Properties
+    // переменная с индексом текушего вопроса
+    private var currentQuestionIndex = 0
+    // переменная счётчик
+    private var correctAnswers = 0
     private let question: [QuizQuestion] = [
         QuizQuestion(image: "The Godfather",
                      text: "Рейтинг этого фильма больше чем 6?",
@@ -92,7 +70,28 @@ final class MovieQuizViewController: UIViewController {
                      text: "Рейтинг этого фильма больше чем 6?",
                      correctAnswer: false)]
     
+    // MARK: - View Life Cycles
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //
+        let currentQuestion = question[currentQuestionIndex]
+        let questionStep = convert(model: currentQuestion)
+        show(quiz: questionStep)
+        
+    }
+    // MARK: - IB Actions
+    @IBAction private func NoButton(_ sender: UIButton) {
+        let currentQuestion = question[currentQuestionIndex] // 1
+        let givenAnswer = false // 2
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    @IBAction private func YesButton(_ sender: UIButton) {
+        let currentQuestion = question[currentQuestionIndex]
+        let givenAnswer = true
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
     
+    // MARK: - Private Methods
     // приватный метод конвертации, который принимает моковый вопрос и возвращает вью модель для главного экрана
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel( // 1
@@ -100,7 +99,6 @@ final class MovieQuizViewController: UIViewController {
             question: model.text, // 3
             questionNumber: "\(currentQuestionIndex + 1)/\(question.count)") // 4
         return questionStep
-        
     }
     // приватный метод вывода на экран вопроса, который принимает на вход вью модель вопроса и ничего не возвращает
     private func show(quiz step: QuizStepViewModel) {
@@ -123,7 +121,6 @@ final class MovieQuizViewController: UIViewController {
             // код, который мы хотим вызвать через 1 секунду
             self.imageView.layer.borderColor = UIColor.clear.cgColor
             self.showNextQuestionOrResults()
-            
         }
     }
     // приватный метод, который содержит логику перехода в один из сценариев
@@ -144,9 +141,7 @@ final class MovieQuizViewController: UIViewController {
             
             show(quiz: viewModel)
         }
-      
     }
-    
     // приватный метод для показа результатов раунда квиза
     // принимает вью модель QuizResultsViewModel и ничего не возвращает
     private func show(quiz result: QuizResultsViewModel) {
@@ -168,7 +163,6 @@ final class MovieQuizViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
 
 // Новая ветка
